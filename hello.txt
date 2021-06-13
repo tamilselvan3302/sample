@@ -1,6 +1,10 @@
 hi 
 hello
 welcome
+ 
+ge
+gn
+
 good Morning!
 thank you
 .
