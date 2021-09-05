@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+    <input type="email" placeholder="email" id="email"><br>
+    <input type="password" placeholder="password" id="password"><br>
+    <button onclick="Signup()">Signup</button>
+    <button onclick="Signin()">Signin</button>
+    <button onclick="Signout()">Signout</button>
+
+
+
+
+
+    <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBAUG9fRJDMNnUbVU5iSqE1lAfiaz_5bp0",
+            authDomain: "login-b8821.firebaseapp.com",
+            projectId: "login-b8821",
+            storageBucket: "login-b8821.appspot.com",
+            messagingSenderId: "1045999058633",
+            appId: "1:1045999058633:web:7661e197fb056804f15718"
+          };
+          
+          //const app = initializeApp(firebaseConfig);
+          firebase.initializeApp(firebaseConfig);
+          const auth=firebase.auth()
+
+          function Signup()
+          {
+              var email=document.getElementById("email");
+              var password=document.getElementById("password");
+              const promise = auth.createUserWithEmailAndPassword(email.value,password.value);
+
+              promise.catch(e=>alert(e.message));
+              alert('signed up');
+          }
+
+        function Signin()
+        {
+            var email=document.getElementById("email");
+            var password=document.getElementById("password");
+            const promise = auth.signInWithEmailAndPassword(email.value,password.value);
+
+            promise.catch(e=>alert(e.message));
+         
+            //
+
+        }
+
+        function Signout()
+        {
+            auth.signOut();
+            alert('signed out')
+        }
+        auth.onAuthStateChanged(function(user){
+            if(user)
+            {
+                var email=user.email;
+                alert("user active : "+ email);
+            }
+            else
+            {
+                alert("No active user");
+            }
+        })
+    </script>
+
+</body>
+</html>
