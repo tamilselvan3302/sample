@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Googlesignin</title>
+</head>
+<body>
+    <h1>Signin with google</h1>
+    
+    <div id="Loginscreeen">
+        <button id="login">Login with google</button>
+    </div>
+    <div id="dashboard">
+        <div id="userdata"></div>
+        <button id="logout">Logout</button>
+        <br>
+    </div>
+
+    
+    <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script type="module">
+    
+      const firebaseConfig = {
+        apiKey: "AIzaSyBAUG9fRJDMNnUbVU5iSqE1lAfiaz_5bp0",
+        authDomain: "login-b8821.firebaseapp.com",
+        projectId: "login-b8821",
+        storageBucket: "login-b8821.appspot.com",
+        messagingSenderId: "1045999058633",
+        appId: "1:1045999058633:web:7661e197fb056804f15718"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      document.getElementById('dashboard').style.display="none"
+
+      document.getElementById('login').addEventListener('click',googlelogin)
+      document.getElementById('logout').addEventListener('click',googlelogout)
+      var provider = new firebase.auth.GoogleAuthProvider();
+
+      function googlelogin()
+      {
+          console.log("login")
+          firebase.auth()
+            .signInWithPopup(provider).then((result) => {
+                console.log(result.user);
+                showuserdetails(result.user)
+                document.getElementById('Loginscreeen').style.display="none"
+                document.getElementById('dashboard').style.display="block"
+            }).catch((error) => {
+                console.log(error);
+            });
+
+      }
+      function showuserdetails(user)
+      {
+        document.getElementById('userdata').innerHTML=`
+        <img src="${user.photoURL}" style="width:15%" alt="img">
+        <p>Name : ${user.displayName}</p>
+        <p>Email : ${user.email}</p>
+        `
+      }
+
+      function checkAuthState()
+      {
+          firebase.auth().onAuthStateChanged(user=>{
+              if(user)
+              { document.getElementById('Loginscreeen').style.display="none"
+                document.getElementById('dashboard').style.display="block"
+                showuserdetails(user)
+              }
+              else
+              {
+
+              }
+          })
+      }
+    
+      function googlelogout()
+      {
+          console.log("logout")
+          firebase.auth().signOut().then(() => {
+            document.getElementById('Loginscreeen').style.display="block"
+            document.getElementById('dashboard').style.display="none"
+          }).catch((error) => {
+            console.log(error)
+          });
+         
+      }
+      checkAuthState()
+    </script>
+</body>
+</html>
