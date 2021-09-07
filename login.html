@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+<body>
+    <div id="loginscreen">
+      <h3>Login page</h3>
+      <input type="email" placeholder="email" id="email">
+      <input type="password" placeholder="password" id="password">
+      <br>
+      <button id="loginbtn"> Login</button>
+    </div>
+    <div id="dashboard">
+      <div id="userdetails"></div>
+      <button id="logoutbtn">Logout</button>
+
+    </div>
+    
+
+
+
+
+
+
+    <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script type="module">
+    
+      const firebaseConfig = {
+        apiKey: "AIzaSyDb_xHVel2A8uP3_9YNqoluxZHK6Bo_nwU",
+        authDomain: "signup-46002.firebaseapp.com",
+        projectId: "signup-46002",
+        storageBucket: "signup-46002.appspot.com",
+        messagingSenderId: "977009328325",
+        appId: "1:977009328325:web:47300ca62fd9694a9fb0ac"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      document.getElementById('loginbtn').addEventListener('click',login);
+      document.getElementById('logoutbtn').addEventListener('click',logout);
+
+
+      document.getElementById('loginscreen').style.display="block"
+      document.getElementById('dashboard').style.display="none"
+
+      function login()
+      {
+        let email=document.getElementById('email').value
+        let password=document.getElementById('password').value
+        firebase.auth().signInWithEmailAndPassword(email,password).catch(e=>{
+          console.log(e)
+        })
+      }
+      function logout()
+      {
+        firebase.auth().signOut().then(()=>{
+          document.getElementById('loginscreen').style.display="block"
+          document.getElementById('dashboard').style.display="none"          
+        }).catch(e=>{
+          console.log(e);
+        })
+      }
+
+
+
+      function showuserdetails(user)
+      {
+        document.getElementById('userdetails').innerHTML=`
+        <p>Login success with ${user.email}</p>`
+      }
+
+      firebase.auth().onAuthStateChanged(user=>{
+        if(user)
+        {
+          console.log(user)
+          document.getElementById('loginscreen').style.display="none"
+          document.getElementById('dashboard').style.display="block"
+          showuserdetails(user)
+        }
+        else
+        {
+          document.getElementById('loginscreen').style.display="block"
+          document.getElementById('dashboard').style.display="none"
+        }
+      })
+
+    </script>
+
+</body>
+</html>

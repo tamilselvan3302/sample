@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<body>
+    <div>
+      <h3>Signup page</h3>
+      <input type="email" placeholder="email" id="email">
+      <input type="password" placeholder="password" id="password">
+      <br>
+      <button id="signup"> sign up</button>
+    </div>
+    
+
+
+
+
+
+
+    <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script type="module">
+    
+      const firebaseConfig = {
+        apiKey: "AIzaSyDb_xHVel2A8uP3_9YNqoluxZHK6Bo_nwU",
+        authDomain: "signup-46002.firebaseapp.com",
+        projectId: "signup-46002",
+        storageBucket: "signup-46002.appspot.com",
+        messagingSenderId: "977009328325",
+        appId: "1:977009328325:web:47300ca62fd9694a9fb0ac"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      document.getElementById('signup').addEventListener('click',signupuser);
+
+      function signupuser()
+      {
+        let email=document.getElementById('email').value
+        let password=document.getElementById('password').value
+        firebase.auth().createUserWithEmailAndPassword(email,password).catch(e=>{
+          console.log(e)
+        })
+      }
+      firebase.auth().onAuthStateChanged(user=>{
+        if(user)
+        {
+          console.log(user)
+        }
+        else
+        {
+
+        }
+      })
+
+    </script>
+
+</body>
+</html>
